@@ -3,24 +3,27 @@ const cors = require("cors");
 
 const app = express();
 
-const allowedOrigins = [
-  "https://dhanasethu09.vercel.app",
-  "https://dhanasethu09-9jw33icxy-pranav-4337s-projects.vercel.app",
-  "http://localhost:3000",
-];
-
 const corsOptions = {
   origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Origin not allowed by CORS"));
+    // Allow tools like Postman / server-to-server
+    if (!origin) return callback(null, true);
+
+    // Allow production frontend
+    if (origin === "https://dhanasethu09.vercel.app") {
+      return callback(null, true);
     }
+
+    // Allow local development
+    if (origin === "http://localhost:3000") {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
   },
   credentials: true,
 };
 
-app.use(cors(corsOptions)); // ✅ enough for OPTIONS + POST + GET
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/api/auth", require("./routes/auth.routes"));
