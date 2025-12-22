@@ -22,6 +22,11 @@ const detectPaymentMode = (t = {}) => {
   return String(raw).toLowerCase();
 };
 
+const isInvestment = (t) => {
+  const type = (t.type || "").toLowerCase();
+  return type === "investment" || type === "invest";
+};
+
 const Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
 
@@ -74,7 +79,7 @@ const Dashboard = () => {
   const totalInvestment = useMemo(
     () =>
       monthTransactions
-        .filter((t) => t.type === "investment")
+        .filter((t) => isInvestment(t))
         .reduce((s, t) => s + parseNumber(t.amount), 0),
     [monthTransactions]
   );
