@@ -236,6 +236,7 @@ const Analytics = () => {
       name: m.monthName,
       Income: m.income,
       Expense: m.expense,
+          Investment: m.investment,
     }));
   }, [monthlySummaries, range]);
 
@@ -245,6 +246,7 @@ const Analytics = () => {
       name: w.label,
       Income: w.income,
       Expense: w.expense,
+          Investment: w.investment,
     }));
   }, [weeklySummaries, range]);
 
